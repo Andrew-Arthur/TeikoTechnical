@@ -68,5 +68,4 @@ ChatGPT was used to:
 - Helped generate test code for database
 - Create mermaid ER diagram for .md
 - Dissuss frontend architecure decisiions with
-- Style the (part 2) sample cell type frequency table page
-- Style the dashboard header
+- Help style the dashboard
