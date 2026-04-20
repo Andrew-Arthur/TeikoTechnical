@@ -1,19 +1,14 @@
 import { useQuery } from "@tanstack/react-query"
-import { getSampleCellTypeFrequency } from "../api/client"
+import { dashboardData } from "../api/client"
 import SampleCellTypeFrequencyTable from "../components/SampleCellTypeFrequencyTable"
 
-export default function SampleCellTypeFrequencyPage() {
-    const {
-        data = [],
-        isLoading,
-        isError,
-        error,
-    } = useQuery({
-        queryKey: ["sample_cell_type_frequency"],
-        queryFn: getSampleCellTypeFrequency,
+export default function DashboardPage() {
+    const { data, isLoading, isError, error } = useQuery({
+        queryKey: ["dashboard_data"],
+        queryFn: dashboardData,
     })
 
-    if (isLoading) {
+    if (isLoading || !data) {
         return <div className="p-6 text-slate-600">Loading...</div>
     }
 
@@ -28,7 +23,9 @@ export default function SampleCellTypeFrequencyPage() {
                 <p className="mt-2 text-slate-600">Relative frequency of each immune cell population in each sample.</p>
             </div>
 
-            <SampleCellTypeFrequencyTable rows={data} />
+            <div>
+                <SampleCellTypeFrequencyTable data={data.sample_cell_type_frequency} />
+            </div>
         </div>
     )
 }
