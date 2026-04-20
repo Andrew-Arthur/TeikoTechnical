@@ -23,12 +23,12 @@ erDiagram
         string sex
         string treatment
         string response
+        string sample_type
     }
 
     SAMPLE {
         string sample_id PK
         string subject_id FK
-        string sample_type
         int time_from_treatment_start
     }
 
@@ -44,7 +44,7 @@ erDiagram
     }
 ```
 
-The schema sepertes value in the flat csv into normalized tables based off assumed relationships. Project stores project identifier. Subject stores subject level data (id, parent project, condition, age, sex, treatment, and responce). Sample stores sample level data (id, parent subject, sample type, and time from treatment start). Sample cell count stores the different cell counts for each sample. Cell type catorigizes the cells that will be sampled.
+The schema sepertes value in the flat csv into normalized tables based off assumed relationships. Project stores project identifier. Subject stores subject level data (id, parent project, condition, age, sex, treatment, responce, sample type). Sample type was considered subject level because it appears to be functionally dependednt on subject in the csv. Sample stores sample level data (id, parent subject, and time from treatment start). Sample cell count stores the different cell counts for each sample. Cell type catorigizes the cells that will be sampled.
 
 Cell count was seperated into its own table, for proper normalization and future maintainability. In the given csv, each sample has five cell counts (b_cell, cd8_t_cell, cd4_t_cell, nk_cell, and monocyte). I chose to normalize this so that future samples can easily have more or less cell counts.
 
@@ -67,3 +67,6 @@ ChatGPT was used to:
 - Discuss schema design decisions with
 - Helped generate test code for database
 - Create mermaid ER diagram for .md
+- Dissuss frontend architecure decisiions with
+- Style the (part 2) sample cell type frequency table page
+- Style the dashboard header

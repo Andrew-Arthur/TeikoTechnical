@@ -83,11 +83,11 @@ def test_subject_project_foreign_key_is_enforced(conn: sqlite3.Connection) -> No
         conn.execute(
             """
             INSERT INTO subject (
-                subject_id, project_id, condition, age, sex, treatment, response
+                subject_id, project_id, condition, age, sex, treatment, response, sample_type
             )
-            VALUES (?, ?, ?, ?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
             """,
-            ("subj_1", "missing_project", "melanoma", 45, "M", "miraclib", "yes"),
+            ("subj_1", "missing_project", "melanoma", 45, "M", "miraclib", "yes", "PBMC"),
         )
 
 
@@ -98,11 +98,11 @@ def test_sample_subject_foreign_key_is_enforced(conn: sqlite3.Connection) -> Non
         conn.execute(
             """
             INSERT INTO sample (
-                sample_id, subject_id, sample_type, time_from_treatment_start
+                sample_id, subject_id, time_from_treatment_start
             )
-            VALUES (?, ?, ?, ?)
+            VALUES (?, ?, ?)
             """,
-            ("sample_1", "missing_subject", "PBMC", 0),
+            ("sample_1", "missing_subject", 0),
         )
 
 

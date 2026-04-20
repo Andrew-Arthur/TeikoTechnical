@@ -38,16 +38,16 @@ def insert_row(cur: sqlite3.Cursor, row: dict[str, str], cell_type_ids: dict[str
     cur.execute(
         """
         INSERT OR IGNORE INTO subject
-        VALUES (?, ?, ?, ?, ?, ?, ?)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
         """,
-        (subject_id, project_id, condition, age, sex, treatment, response)
+        (subject_id, project_id, condition, age, sex, treatment, response, sample_type)
     )
     cur.execute(
         """
         INSERT OR IGNORE INTO sample
-        VALUES (?, ?, ?, ?)
+        VALUES (?, ?, ?)
         """,
-        (sample_id, subject_id, sample_type, time_from_treatment_start),
+        (sample_id, subject_id, time_from_treatment_start),
     )
     cur.executemany(
         """

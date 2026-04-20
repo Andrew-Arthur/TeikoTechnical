@@ -18,6 +18,7 @@ CREATE TABLE subject (
     sex TEXT NOT NULL CHECK (sex IN ('M', 'F')),
     treatment TEXT NOT NULL,
     response TEXT CHECK (response IN ('yes', 'no') OR response IS NULL),
+    sample_type TEXT NOT NULL,
 
     FOREIGN KEY (project_id) REFERENCES project(project_id)
 );
@@ -28,7 +29,6 @@ CREATE INDEX idx_subject_project_id
 CREATE TABLE sample (
     sample_id TEXT PRIMARY KEY,
     subject_id TEXT NOT NULL,
-    sample_type TEXT NOT NULL,
     time_from_treatment_start INTEGER NOT NULL,
 
     FOREIGN KEY (subject_id) REFERENCES subject(subject_id)
