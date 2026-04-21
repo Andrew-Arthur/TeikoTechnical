@@ -32,12 +32,12 @@ describe('search-param-service', () => {
             expect(state.displayMode).toBe('percentage')
         })
 
-        it('should default to "both" for cell level', () => {
+        it('should default to "percentage" for cell level', () => {
             const params = new URLSearchParams('level=cell')
             const state = getHierarchicalTableStateFromSearchParams(params)
 
             expect(state.level).toBe('cell')
-            expect(state.displayMode).toBe('both')
+            expect(state.displayMode).toBe('percentage')
         })
 
         it('should respect explicit display mode in URL for aggregated levels', () => {
@@ -77,7 +77,7 @@ describe('search-param-service', () => {
         it('should omit display mode from URL when it matches default for cell level', () => {
             const current = new URLSearchParams('level=cell')
             const next = buildHierarchicalTableSearchParams(current, {
-                displayMode: 'both',
+                displayMode: 'percentage',
             })
 
             expect(next.has(HIERARCHICAL_PARAMS.displayMode)).toBe(false)
@@ -86,10 +86,10 @@ describe('search-param-service', () => {
         it('should include display mode in URL when it differs from default for cell level', () => {
             const current = new URLSearchParams('level=cell')
             const next = buildHierarchicalTableSearchParams(current, {
-                displayMode: 'percentage',
+                displayMode: 'count',
             })
 
-            expect(next.get(HIERARCHICAL_PARAMS.displayMode)).toBe('percentage')
+            expect(next.get(HIERARCHICAL_PARAMS.displayMode)).toBe('count')
         })
 
         it('should handle level change with appropriate display mode default', () => {
@@ -162,11 +162,8 @@ describe('search-param-service', () => {
 
                 expect(state.level).toBe(level)
 
-                if (level === 'cell') {
-                    expect(state.displayMode).toBe('both')
-                } else {
-                    expect(state.displayMode).toBe('percentage')
-                }
+                // All levels default to 'percentage'
+                expect(state.displayMode).toBe('percentage')
             })
         })
     })
@@ -177,9 +174,8 @@ describe('search-param-service', () => {
             const state = getHierarchicalTableStateFromSearchParams(params)
 
             expect(state.level).toBe('sample')
-            expect(state.aggregationMethod).toBe('mode')
+            expect(state.aggregationMethod).toBe('mean')
             expect(state.displayMode).toBe('percentage')
-            expect(state.globalFilter).toBe('')
             expect(state.sorting).toEqual([])
         })
 
@@ -187,7 +183,7 @@ describe('search-param-service', () => {
             const current = new URLSearchParams()
             const next = buildHierarchicalTableSearchParams(current, {
                 level: 'sample',
-                aggregationMethod: 'mode',
+                aggregationMethod: 'mean',
                 displayMode: 'percentage',
             })
 

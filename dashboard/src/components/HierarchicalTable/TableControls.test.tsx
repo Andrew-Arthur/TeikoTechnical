@@ -9,6 +9,7 @@ const mockFilterOptions: FilterOptions = {
   condition: ['melanoma', 'healthy'],
   treatment: ['treatment_A', 'treatment_B'],
   response: ['responder', 'non-responder'],
+  sample_type: ['PBMC', 'Tumor'],
   time_from_treatment: [0, 7, 14],
 }
 
@@ -17,6 +18,7 @@ const mockFilters: HierarchicalTableFilters = {
   condition: [],
   treatment: [],
   response: [],
+  sample_type: [],
   time_from_treatment: [],
 }
 
@@ -25,30 +27,31 @@ describe('TableControls', () => {
     const mockSetLevel = vi.fn()
     const mockSetAggregationMethod = vi.fn()
     const mockSetFilters = vi.fn()
-    const mockSetGlobalFilter = vi.fn()
     const mockSetDisplayMode = vi.fn()
+    const mockSetComparisonColumn = vi.fn()
 
     render(
       <TableControls
         level="sample"
         setLevel={mockSetLevel}
-        aggregationMethod="mode"
+        aggregationMethod="mean"
         setAggregationMethod={mockSetAggregationMethod}
         filters={mockFilters}
         setFilters={mockSetFilters}
         filterOptions={mockFilterOptions}
-        globalFilter=""
-        setGlobalFilter={mockSetGlobalFilter}
         allColumns={[]}
-        displayMode="both"
+        displayMode="percentage"
         setDisplayMode={mockSetDisplayMode}
+        comparisonColumn="response"
+        setComparisonColumn={mockSetComparisonColumn}
+        availableComparisonColumns={["response", "sex", "none"]}
       />
     )
 
     // Check for key labels
     expect(screen.getByText('Level:')).toBeInTheDocument()
-    expect(screen.getByText('Aggregation:')).toBeInTheDocument()
-    expect(screen.getByPlaceholderText('Search table...')).toBeInTheDocument()
+    expect(screen.getByText('Display:')).toBeInTheDocument()
+    expect(screen.getByText('Filters:')).toBeInTheDocument()
   })
 
   it('should disable aggregation when level is cell', () => {
@@ -56,55 +59,48 @@ describe('TableControls', () => {
       <TableControls
         level="cell"
         setLevel={vi.fn()}
-        aggregationMethod="mode"
+        aggregationMethod="mean"
         setAggregationMethod={vi.fn()}
         filters={mockFilters}
         setFilters={vi.fn()}
         filterOptions={mockFilterOptions}
-        globalFilter=""
-        setGlobalFilter={vi.fn()}
         allColumns={[]}
-        displayMode="both"
+        displayMode="percentage"
         setDisplayMode={vi.fn()}
+        comparisonColumn="response"
+        setComparisonColumn={vi.fn()}
+        availableComparisonColumns={["response", "sex", "none"]}
       />
     )
 
-    // Find the aggregation selector button
-    const aggregationButton = screen.getByText('Mode').closest('button')
+    // Cell level should not show aggregation control
+    expect(screen.queryByText('Aggregation')).not.toBeInTheDocument()
 
-    expect(aggregationButton).toHaveClass('cursor-not-allowed')
-    expect(aggregationButton).toHaveClass('opacity-50')
+    // But should show display mode
+    expect(screen.getByText('Display:')).toBeInTheDocument()
   })
 
-  it('should call setGlobalFilter when typing in search', async () => {
-    const user = userEvent.setup()
-    const mockSetGlobalFilter = vi.fn()
-
+  it('should render filter controls', async () => {
     render(
       <TableControls
         level="sample"
         setLevel={vi.fn()}
-        aggregationMethod="mode"
+        aggregationMethod="mean"
         setAggregationMethod={vi.fn()}
         filters={mockFilters}
         setFilters={vi.fn()}
         filterOptions={mockFilterOptions}
-        globalFilter=""
-        setGlobalFilter={mockSetGlobalFilter}
         allColumns={[]}
-        displayMode="both"
+        displayMode="percentage"
         setDisplayMode={vi.fn()}
+        comparisonColumn="response"
+        setComparisonColumn={vi.fn()}
+        availableComparisonColumns={["response", "sex", "treatment", "none"]}
       />
     )
 
-    const searchInput = screen.getByPlaceholderText('Search table...')
-    await user.type(searchInput, 'test')
-
-    // userEvent.type sends individual character events, not accumulated strings
-    expect(mockSetGlobalFilter).toHaveBeenCalledWith('t')
-    expect(mockSetGlobalFilter).toHaveBeenCalledWith('e')
-    expect(mockSetGlobalFilter).toHaveBeenCalledWith('s')
-    expect(mockSetGlobalFilter).toHaveBeenCalledWith('t')
-    expect(mockSetGlobalFilter).toHaveBeenCalledTimes(4)
+    // Filter dropdowns should be rendered
+    expect(screen.getByText('Sex (0)')).toBeInTheDocument()
+    expect(screen.getByText('Condition (0)')).toBeInTheDocument()
   })
 })

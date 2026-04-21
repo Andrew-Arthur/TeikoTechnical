@@ -61,7 +61,7 @@ def endpoint_name(
 
 ### `queries.py` - Query Functions
 - Contains all database query logic
-- SQL queries loaded from `/sql/analysis/*.sql` files OR built dynamically
+- SQL queries are built dynamically in Python (no separate SQL files for analysis)
 - **Pattern**: Return `list[dict]` for consistency
 - **Security**: Use parameterized queries with `?` placeholders
 
@@ -86,18 +86,19 @@ def get_data(con: sqlite3.Connection, filter_value: str | None = None) -> list[d
     return list(map(dict, rows))
 ```
 
-### `sql/analysis/` - SQL Queries
-- Store complex SQL queries as `.sql` files
-- Use descriptive names: `hierarchical_table_data.sql`, `frequency_data.sql`
-- **Pattern**: Use CTEs (Common Table Expressions) for readability
-- Document complex logic with SQL comments
+### `statistical_tests.py` - Statistical Analysis
+- Contains statistical test functions
+- Automatically selects appropriate test based on level and aggregation
+- **Mann-Whitney U**: For subject/project level (independent samples)
+- **Mixed-Effects Models**: For sample/cell level (repeated measures)
+- **FDR Correction**: Applies Benjamini-Hochberg correction for multiple comparisons
 
 ## Hierarchical Data System
 
 The hierarchical table API supports 4 levels × 5 aggregation methods:
 
 **Levels**: `project`, `subject`, `sample`, `cell`
-**Aggregation Methods**: `first`, `min`, `max`, `median`, `mode`
+**Aggregation Methods**: `mean`, `median`, `min`, `max`, `sum`
 
 ### Query Building Strategy
 

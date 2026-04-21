@@ -3,12 +3,10 @@ from fastapi.middleware.cors import CORSMiddleware
 from pathlib import Path
 import sqlite3
 from teiko_technical.queries import (
-    get_frequency_data, get_conditions, get_treatments,
     get_hierarchical_table_data, get_sex_values, get_condition_values,
     get_treatment_values, get_response_values, get_time_from_treatment_values,
     get_sample_type_values
 )
-from teiko_technical.analysis import compact_frequency_data
 
 app = FastAPI()
 
@@ -30,17 +28,6 @@ def get_con():
         yield con
     finally:
         con.close()
-
-
-@app.get("/dashboard_data")
-def dashboard_data(con: sqlite3.Connection = Depends(get_con)):
-    frequency_data = get_frequency_data(con)
-    return {
-        "frequency_data": frequency_data,
-        "compact_frequency_data": compact_frequency_data(frequency_data),
-        "conditions" : get_conditions(con),
-        "treatments" : get_treatments(con),
-    }
 
 @app.get("/hierarchical_table_data")
 def hierarchical_table_data(

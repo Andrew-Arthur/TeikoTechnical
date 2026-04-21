@@ -84,15 +84,15 @@ The project follows a clean separation between backend (Python/FastAPI) with dat
 
 ```
 src/teiko_technical/
-├── api.py              # FastAPI application with REST endpoints
-├── queries.py          # Database query functions
-├── analysis.py         # Data transformation utilities
-├── init_db.py          # Database initialization
-└── load_csv_to_db.py   # CSV data loader
+├── api.py                  # FastAPI application with REST endpoints
+├── queries.py              # Database query functions
+├── statistical_tests.py    # Statistical analysis functions
+├── init_db.py              # Database initialization
+└── load_csv_to_db.py       # CSV data loader
 ```
 
 **Design Rationale:**
-- **Separation of concerns:** api.py handles routing, queries.py handles SQL, keeping layers independent
+- **Separation of concerns:** api.py handles routing, queries.py handles SQL, statistical_tests.py handles analysis
 - **Dynamic SQL generation:** Single hierarchical query builder supports 4 levels × 5 aggregation methods without 20 separate SQL files
 - **Statistical test selection:** Automatically chooses appropriate test (Mann-Whitney for independent samples, mixed-effects for repeated measures)
 - **Reusable query functions:** All queries parameterized and testable independently
@@ -101,17 +101,31 @@ src/teiko_technical/
 
 ```
 sql/
-├── schema.sql          # Database schema definition
-└── analysis/
-    ├── frequency_data.sql              # Legacy frequency query
-    ├── sample_cell_type_frequency.sql  # Sample-level frequency
-    └── hierarchical_table_data.sql     # Template for hierarchical queries
+└── schema.sql          # Database schema definition
 ```
 
 **Design Rationale:**
-- Modular SQL files for complex queries
-- CTEs (Common Table Expressions) for readability
-- Hierarchical query template supports dynamic aggregation 
+- SQL queries are dynamically built in Python (queries.py) for flexibility
+- CTEs (Common Table Expressions) for readability in generated queries
+- No separate SQL files needed for analysis queries (all generated programmatically) 
+
+#### API Endpoints
+
+The backend exposes three REST endpoints:
+
+1. **GET /hierarchical_table_data** - Main data query endpoint
+   - Query params: `level`, `aggregation_method`, `sex`, `condition`, `treatment`, `response`, `sample_type`, `time_from_treatment`
+   - Returns hierarchical cell count data with filtering and aggregation
+   - Supports 4 levels × 5 aggregation methods
+
+2. **GET /filter_options** - Available filter values
+   - Returns distinct values for all filter fields
+   - Used to populate dropdown menus in the UI
+
+3. **POST /statistical_tests** - Statistical analysis endpoint
+   - Body params: `level`, `comparison_column`, `display_mode`, `aggregation_method`, filters
+   - Automatically selects appropriate statistical test (Mann-Whitney or mixed-effects)
+   - Returns test results with FDR correction, effect sizes, and interpretations
 
 #### Frontend Structure (`/dashboard/src/`)
 
@@ -147,10 +161,10 @@ dashboard/src/
 
 ```
 tests/
-├── test_database.py              # Database schema and constraint tests
-├── test_api.py                   # Legacy API endpoint tests
-├── test_hierarchical_api.py      # Hierarchical table API tests
-└── test_hierarchical_queries.py  # Query function tests (if added)
+├── test_database.py                # Database schema and constraint tests
+├── test_hierarchical_api.py        # Hierarchical table API endpoint tests
+├── test_aggregation_functions.py   # Aggregation method tests
+└── test_statistical_analysis.py    # Statistical test endpoint tests
 ```
 
 ## Dashboard Link
