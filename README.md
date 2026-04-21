@@ -159,6 +159,7 @@ Dashboard is accessible at:
 http://localhost:5173
 
 #### Technical Rubric Shortlinks
+For codespaces, you unfortuneately need to copy and paste the query path (part after localhost:5173) to the end of the space address.
 
 Part 2:
 - Data Overview Table:
