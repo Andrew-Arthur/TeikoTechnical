@@ -1,3 +1,5 @@
+.PHONY: setup pipeline dashboard backend frontend test
+
 setup:
 	pip install -r requirements.txt
 	pip install -e .
@@ -6,8 +8,14 @@ setup:
 pipeline:
 	python load_data.py
 
+backend:
+	uvicorn teiko_technical.api:app --reload --host 0.0.0.0
+
+frontend:
+	cd dashboard && npm run dev -- --host 0.0.0.0
+
 dashboard:
-	uvicorn teiko_technical.api:app --reload & cd dashboard && npm run dev
+	make -j2 backend frontend
 
 test:
 	pytest tests/ -v

@@ -21,13 +21,15 @@ app.add_middleware(
 ROOT_DIR = Path(__file__).resolve().parents[2]
 DB_PATH = ROOT_DIR / "data.db"
 
+
 def get_con():
-    con = sqlite3.connect(DB_PATH)
+    con = sqlite3.connect(DB_PATH, check_same_thread=False)
     con.row_factory = sqlite3.Row
     try:
         yield con
     finally:
         con.close()
+
 
 @app.get("/hierarchical_table_data")
 def hierarchical_table_data(
@@ -60,7 +62,8 @@ def hierarchical_table_data(
 
     # Validate aggregation_method
     if aggregation_method not in ["mean", "median", "min", "max", "sum"]:
-        raise HTTPException(status_code=400, detail=f"Invalid aggregation method: {aggregation_method}")
+        raise HTTPException(
+            status_code=400, detail=f"Invalid aggregation method: {aggregation_method}")
 
     try:
         data = get_hierarchical_table_data(
@@ -75,6 +78,7 @@ def hierarchical_table_data(
         traceback.print_exc()
         raise HTTPException(status_code=500, detail=str(e))
 
+
 @app.get("/filter_options")
 def filter_options(con: sqlite3.Connection = Depends(get_con)):
     """Get all available filter values for dropdowns."""
@@ -86,6 +90,7 @@ def filter_options(con: sqlite3.Connection = Depends(get_con)):
         "sample_type": get_sample_type_values(con),
         "time_from_treatment": get_time_from_treatment_values(con),
     }
+
 
 @app.post("/statistical_tests")
 def statistical_tests(
@@ -123,7 +128,8 @@ def statistical_tests(
 
     # Sample and cell levels should NOT use aggregation for statistical tests (repeated measures)
     # Pass None to statistical_tests so it uses mixed-effects model
-    statistical_agg_method = None if level in ['sample', 'cell'] else aggregation_method
+    statistical_agg_method = None if level in [
+        'sample', 'cell'] else aggregation_method
 
     # Perform analysis
     result = perform_statistical_analysis(

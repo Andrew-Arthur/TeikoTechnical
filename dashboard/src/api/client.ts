@@ -7,8 +7,6 @@ import type {
     StatisticalAnalysisResult
 } from "../types/api"
 
-const FAST_API = "http://127.0.0.1:8000"
-
 export async function fetchHierarchicalTableData(
     level: HierarchyLevel,
     aggregationMethod: AggregationMethod,
@@ -26,7 +24,7 @@ export async function fetchHierarchicalTableData(
     filters.sample_type.forEach(v => params.append("sample_type", v))
     filters.time_from_treatment.forEach(v => params.append("time_from_treatment", String(v)))
 
-    const response = await fetch(`${FAST_API}/hierarchical_table_data?${params}`)
+    const response = await fetch(`/hierarchical_table_data?${params}`)
     if (!response.ok) {
         throw new Error(`API error: ${response.statusText}`)
     }
@@ -34,7 +32,7 @@ export async function fetchHierarchicalTableData(
 }
 
 export async function fetchFilterOptions(): Promise<FilterOptions> {
-    const response = await fetch(`${FAST_API}/filter_options`)
+    const response = await fetch(`/filter_options`)
     if (!response.ok) {
         throw new Error(`API error: ${response.statusText}`)
     }
@@ -65,7 +63,7 @@ export async function fetchStatisticalTests(
     filters.sample_type.forEach(v => params.append("sample_type", v))
     filters.time_from_treatment.forEach(v => params.append("time_from_treatment", String(v)))
 
-    const response = await fetch(`${FAST_API}/statistical_tests?${params}`, {
+    const response = await fetch(`/statistical_tests?${params}`, {
         method: "POST",
     })
 
