@@ -181,6 +181,25 @@ http://localhost:5178/?condition=melanoma&treatment=miraclib&sample_type=PBMC&ti
    http://localhost:5178/?condition=melanoma&treatment=miraclib&sample_type=PBMC&time=0&level=subject&compare=sex
 
 
-## AI Assistence Disclosure
+## AI Assistance Disclosure
 
-This project was developed with the help of Claude Code. All system architecure, design choices, project structure, style guidelines, were set by me Andrew Arthur.
+This project was developed by Andrew Arthur with assistance from Claude Code (Anthropic's AI coding assistant).
+
+**My work and design decisions:**
+- System architecture and database schema design
+- All project structure and organization decisions
+- Technical approach for hierarchical data aggregation
+- Statistical test methodology and selection criteria
+- Frontend UX design and component architecture
+- Code style guidelines and naming conventions
+- Test strategy and coverage decisions
+- All final code review and quality control
+
+**Claude Code assisted with:**
+- Implementation of designed architecture
+- Code generation following my specifications
+- Debugging and issue resolution
+- Documentation writing
+- Boilerplate and repetitive code tasks
+
+All critical technical decisions, architectural choices, and design rationale were made by me. Claude Code served as an implementation assistant under my direction.
