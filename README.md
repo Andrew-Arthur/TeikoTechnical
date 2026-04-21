@@ -2,6 +2,14 @@
 
 ## Setup Instructions
 
+Makefile is created to help with setup. With make installed:
+
+```
+    make setup
+    make pipeline
+    make dashboard
+```
+
 ## Database Schema
 
 ```mermaid
@@ -56,16 +64,91 @@ Indexes were created for foreign keys and otherwise added to the schema as usefu
 
 ## Code Structure
 
+The project follows a clean separation between backend (Python/FastAPI) with database (sqlite3), and frontend (React/TypeScript).
+
+#### Backend Structure (`/src/teiko_technical/`)
+
+```
+src/teiko_technical/
+├── api.py              # FastAPI application with REST endpoints
+├── queries.py          # Database query functions
+├── analysis.py         # Data transformation utilities
+├── init_db.py          # Database initialization
+└── load_csv_to_db.py   # CSV data loader
+```
+
+Backend structure is designed to be clean and simple.
+
+#### SQL Structure (`/sql/`)
+
+```
+sql/
+├── schema.sql          # Database schema definition
+└── analysis/
+    ├── frequency_data.sql              # Legacy frequency query
+    ├── sample_cell_type_frequency.sql  # Sample-level frequency
+    └── hierarchical_table_data.sql     # Template for hierarchical queries
+```
+
+SQL structure is designed to 
+
+### Frontend Structure (`/dashboard/src/`)
+
+```
+dashboard/src/
+├── api/
+│   └── client.ts                      # API client functions
+├── components/
+│   └── HierarchicalTable/
+│       ├── HierarchicalTable.tsx      # TanStack Table component
+│       ├── TableControls.tsx          # Filter/search controls
+│       ├── MultiSelectFilter.tsx      # Reusable multi-select dropdown
+│       ├── ResizablePanes.tsx         # Split-pane layout
+│       ├── columns.ts                 # Column definitions by level
+│       └── columnDefaults.ts          # Default visibility config
+├── pages/
+│   ├── HierarchicalTablePage.tsx      # Main hierarchical table page
+│   └── DashboardPage.tsx              # Legacy dashboard
+├── services/
+│   └── search-param-service.ts        # URL state management
+├── types/
+│   └── api.ts                         # TypeScript type definitions
+└── App.tsx                            # Router configuration
+```
+
+#### Test Structure (`/tests/`)
+
+```
+tests/
+├── test_database.py              # Database schema and constraint tests
+├── test_api.py                   # Legacy API endpoint tests
+├── test_hierarchical_api.py      # Hierarchical table API tests
+└── test_hierarchical_queries.py  # Query function tests (if added)
+```
+
 ## Dashboard Link
+
+Dashboard is accessable at:
+http://127.0.0.1:5172
+
+#### Technical Rubric Shortlinks
+
+Part 2:
+- http://127.0.0.1:5172/?level=cell&compare=none
+
+Part 3: 
+- Linear Mixed-Effects Model on Samples:
+http://localhost:5172/?sample_type=PBMC&condition=melanoma&treatment=miraclib
+- Mann-Whitney U test on Subjects:
+http://localhost:5172/?sample_type=PBMC&condition=melanoma&treatment=miraclib&level=subject
+
+Part 4:
+1. http://localhost:5178/?condition=melanoma&treatment=miraclib&sample_type=PBMC&time=0&compare=none
+2. 1. http://localhost:5178/?condition=melanoma&treatment=miraclib&sample_type=PBMC&time=0&compare=none&level=project
+   2. http://localhost:5178/?condition=melanoma&treatment=miraclib&sample_type=PBMC&time=0&level=subject
+   3. http://localhost:5178/?condition=melanoma&treatment=miraclib&sample_type=PBMC&time=0&level=subject&compare=sex
+
 
 ## AI Assistence Disclosure
 
-All code and words in this project were written by me, Andrew Arthur, unless specified here.
-
-ChatGPT was used to:
-
-- Discuss schema design decisions with
-- Helped generate test code for database
-- Create mermaid ER diagram for .md
-- Dissuss frontend architecure decisiions with
-- Help style the dashboard
+This project was developed with the help of Claude Code. All system architecure, design choices, project structure, style guidelines, were set by me Andrew Arthur.

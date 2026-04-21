@@ -36,29 +36,22 @@ def client(tmp_path: Path):
     app.dependency_overrides.clear()
 
 
-def test_sample_cell_type_frequency_endpoint_shape(client: TestClient):
-    response = client.get("/sample_cell_type_frequency")
+def test_dashboard_data_endpoint(client: TestClient):
+    """Test dashboard_data endpoint returns frequency_data and filters."""
+    response = client.get("/dashboard_data")
 
     assert response.status_code == 200
 
     data = response.json()
-    assert isinstance(data, list)
-    assert len(data) > 0
+    assert isinstance(data, dict)
 
-    counts = defaultdict(int)
-    for row in data:
-        for header, expected_type in [
-            ("sample"     , str),
-            ("total_count", int),
-            ("population" , str),
-            ("count"      , int),
-            ("percentage" , float)
-        ]:
-            assert header in row
-            assert isinstance(row[header], expected_type)
+    # Should have frequency_data
+    assert "frequency_data" in data
+    assert isinstance(data["frequency_data"], list)
 
-        counts[row["sample"]] += row["percentage"]
+    # Should have compact_frequency_data
+    assert "compact_frequency_data" in data
 
-    for count in counts.values():
-        precision = 1e10
-        assert round(count * precision) / precision == 100
+    # Should have filter options
+    assert "conditions" in data
+    assert "treatments" in data
