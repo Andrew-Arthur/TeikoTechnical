@@ -4,3 +4,4 @@ __pycache__/
 *.db
 src/*.egg-info/
 .idea/
+.claude/settings.local.json

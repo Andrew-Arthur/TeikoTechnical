@@ -283,8 +283,57 @@ export default function HierarchicalTablePage() {
     return (
         <div className="h-screen flex flex-col">
             {/* Header */}
-            <div className="p-6 bg-white border-b border-slate-200">
+            <div className="p-6 bg-white border-b border-slate-200 flex items-center justify-between">
                 <h1 className="text-3xl font-semibold text-slate-900">Teiko Technical Dashboard</h1>
+
+                {/* Technical Rubric Shortlinks */}
+                <div className="flex items-center gap-4">
+                    <span className="text-sm font-medium text-slate-600">Quick Links:</span>
+                    <div className="flex items-center gap-2">
+                        <a
+                            href="/?level=cell&compare=none"
+                            className="px-3 py-1.5 text-xs font-medium text-slate-700 bg-slate-100 hover:bg-slate-200 rounded border border-slate-300 transition-colors"
+                        >
+                            Part 2
+                        </a>
+                        <a
+                            href="/?sample_type=PBMC&condition=melanoma&treatment=miraclib"
+                            className="px-3 py-1.5 text-xs font-medium text-slate-700 bg-slate-100 hover:bg-slate-200 rounded border border-slate-300 transition-colors"
+                        >
+                            Part 3a
+                        </a>
+                        <a
+                            href="/?sample_type=PBMC&condition=melanoma&treatment=miraclib&level=subject"
+                            className="px-3 py-1.5 text-xs font-medium text-slate-700 bg-slate-100 hover:bg-slate-200 rounded border border-slate-300 transition-colors"
+                        >
+                            Part 3b
+                        </a>
+                        <a
+                            href="/?condition=melanoma&treatment=miraclib&sample_type=PBMC&time=0&compare=none"
+                            className="px-3 py-1.5 text-xs font-medium text-slate-700 bg-slate-100 hover:bg-slate-200 rounded border border-slate-300 transition-colors"
+                        >
+                            Part 4.1
+                        </a>
+                        <a
+                            href="/?condition=melanoma&treatment=miraclib&sample_type=PBMC&time=0&level=project"
+                            className="px-3 py-1.5 text-xs font-medium text-slate-700 bg-slate-100 hover:bg-slate-200 rounded border border-slate-300 transition-colors"
+                        >
+                            Part 4.2.1
+                        </a>
+                        <a
+                            href="/?condition=melanoma&treatment=miraclib&sample_type=PBMC&time=0&level=subject"
+                            className="px-3 py-1.5 text-xs font-medium text-slate-700 bg-slate-100 hover:bg-slate-200 rounded border border-slate-300 transition-colors"
+                        >
+                            Part 4.2.2
+                        </a>
+                        <a
+                            href="/?condition=melanoma&treatment=miraclib&sample_type=PBMC&time=0&level=subject&compare=sex"
+                            className="px-3 py-1.5 text-xs font-medium text-slate-700 bg-slate-100 hover:bg-slate-200 rounded border border-slate-300 transition-colors"
+                        >
+                            Part 4.2.3
+                        </a>
+                    </div>
+                </div>
             </div>
 
             {/* Controls */}

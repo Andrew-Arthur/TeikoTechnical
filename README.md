@@ -172,7 +172,7 @@ Dashboard is accessible at:
 http://localhost:5173
 
 #### Technical Rubric Shortlinks
-For codespaces, you unfortuneately need to copy and paste the query path (part after localhost:5173) to the end of the space address.
+These links are also available in the top right corner of the app for use in codespaces.
 
 Part 2:
 - Data Overview Table:
@@ -187,11 +187,11 @@ http://localhost:5173/?sample_type=PBMC&condition=melanoma&treatment=miraclib&le
 Part 4:
 1. Samples Filtered to Melanoma, Miraclib, PBMC, Time 0:
 http://localhost:5173/?condition=melanoma&treatment=miraclib&sample_type=PBMC&time=0&compare=none
-2. Projects Filtered to Melanoma, Miraclib, PBMC, Time 0:
+2. 1. Projects Filtered to Melanoma, Miraclib, PBMC, Time 0:
 http://localhost:5173/?condition=melanoma&treatment=miraclib&sample_type=PBMC&time=0&level=project
-3. Subjects Filtered to Melanoma, Miraclib, PBMC, Time 0, Compared by Responce:
+   2. Subjects Filtered to Melanoma, Miraclib, PBMC, Time 0, Compared by Responce:
 http://localhost:5173/?condition=melanoma&treatment=miraclib&sample_type=PBMC&time=0&level=subject
-4. Subjects Filtered to Melanoma, Miraclib, PBMC, Time 0, Compared by Sex:
+   3. Subjects Filtered to Melanoma, Miraclib, PBMC, Time 0, Compared by Sex:
 http://localhost:5173/?condition=melanoma&treatment=miraclib&sample_type=PBMC&time=0&level=subject&compare=sex
 
 
