@@ -1,0 +1,99 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  backend-tests:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.11', '3.12', '3.13']
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install -e .
+
+      - name: Run data pipeline
+        run: python load_data.py
+
+      - name: Run tests
+        run: pytest tests/ -v --tb=short
+
+      - name: Verify database
+        run: |
+          python -c "
+          import sqlite3
+          con = sqlite3.connect('data.db')
+          projects = con.execute('SELECT COUNT(*) FROM project').fetchone()[0]
+          samples = con.execute('SELECT COUNT(*) FROM sample').fetchone()[0]
+          print(f'✓ Database has {projects} projects and {samples} samples')
+          assert samples == 10500, f'Expected 10500 samples, got {samples}'
+          con.close()
+          "
+
+  frontend-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: dashboard/package-lock.json
+
+      - name: Install dependencies
+        working-directory: ./dashboard
+        run: npm ci
+
+      - name: Build frontend
+        working-directory: ./dashboard
+        run: npm run build
+
+      - name: Run frontend tests
+        working-directory: ./dashboard
+        run: npm run test:run
+
+  makefile-validation:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Test make setup
+        run: make setup
+
+      - name: Test make pipeline
+        run: make pipeline
+
+      - name: Test make test
+        run: make test
+
+      - name: Verify data.db created
+        run: test -f data.db && echo "✓ data.db exists"

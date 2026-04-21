@@ -143,7 +143,14 @@
       "Bash(curl -s \"http://127.0.0.1:8001/hierarchical_table_data?level=subject&aggregation_method=median\")",
       "Bash(curl -s \"http://127.0.0.1:8001/hierarchical_table_data?level=sample&aggregation_method=mean\")",
       "Bash(curl -I -X OPTIONS \"http://127.0.0.1:8001/hierarchical_table_data\" -H \"Origin: http://localhost:5178\" -H \"Access-Control-Request-Method: GET\")",
-      "Bash(grep -E \"README|\\\\.md$|docs|sql\")"
+      "Bash(grep -E \"README|\\\\.md$|docs|sql\")",
+      "Bash(xargs ls *)",
+      "Bash(sqlite3 data.db \"SELECT COUNT\\(*\\) as projects FROM project; SELECT COUNT\\(*\\) as subjects FROM subject; SELECT COUNT\\(*\\) as samples FROM sample; SELECT COUNT\\(*\\) as cell_counts FROM sample_cell_count;\")",
+      "Bash(sqlite3 data.db \"SELECT COUNT\\(*\\) as project_count FROM project; SELECT COUNT\\(*\\) as subject_count FROM subject; SELECT COUNT\\(*\\) as sample_count FROM sample;\")",
+      "Bash(python -c \"import sqlite3; con = sqlite3.connect\\('data.db'\\); print\\('Projects:', con.execute\\('SELECT COUNT\\(*\\) FROM project'\\).fetchone\\(\\)[0]\\); print\\('Subjects:', con.execute\\('SELECT COUNT\\(*\\) FROM subject'\\).fetchone\\(\\)[0]\\); print\\('Samples:', con.execute\\('SELECT COUNT\\(*\\) FROM sample'\\).fetchone\\(\\)[0]\\); con.close\\(\\)\")",
+      "Bash(python -c \"import sqlite3; con = sqlite3.connect\\('data.db'\\); print\\('Distinct projects:', con.execute\\('SELECT COUNT\\(DISTINCT project_id\\) FROM project'\\).fetchone\\(\\)[0]\\); print\\('Distinct subjects:', con.execute\\('SELECT COUNT\\(DISTINCT subject_id\\) FROM subject'\\).fetchone\\(\\)[0]\\); con.close\\(\\)\")",
+      "Bash(chmod +x c:/Github/TeikoTechnical/.devcontainer/setup.sh)",
+      "Bash(python export_results.py)"
     ]
   }
 }

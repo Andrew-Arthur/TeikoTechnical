@@ -10,6 +10,20 @@ Makefile is created to help with setup. With make installed:
     make dashboard
 ```
 
+## GitHub Codespaces (Recommended)
+
+The easiest way to run this project is using GitHub Codespaces:
+
+1. Click the green "Code" button on GitHub
+2. Select "Codespaces" tab
+3. Click "Create codespace on main"
+4. Wait 3-5 minutes for automatic setup (installs dependencies and loads data)
+5. Start the backend: `make dashboard`
+6. Start the frontend in new terminal: `cd dashboard && npm run dev -- --host 0.0.0.0`
+7. Click the "Ports" tab in VS Code and open port 5173 to access the dashboard
+
+The Codespace automatically installs all dependencies and loads the 10,500 sample dataset.
+
 ## Database Schema
 
 ```mermaid
@@ -77,7 +91,11 @@ src/teiko_technical/
 └── load_csv_to_db.py   # CSV data loader
 ```
 
-Backend structure is designed to be clean and simple.
+**Design Rationale:**
+- **Separation of concerns:** api.py handles routing, queries.py handles SQL, keeping layers independent
+- **Dynamic SQL generation:** Single hierarchical query builder supports 4 levels × 5 aggregation methods without 20 separate SQL files
+- **Statistical test selection:** Automatically chooses appropriate test (Mann-Whitney for independent samples, mixed-effects for repeated measures)
+- **Reusable query functions:** All queries parameterized and testable independently
 
 #### SQL Structure (`/sql/`)
 
@@ -90,9 +108,12 @@ sql/
     └── hierarchical_table_data.sql     # Template for hierarchical queries
 ```
 
-SQL structure is designed to 
+**Design Rationale:**
+- Modular SQL files for complex queries
+- CTEs (Common Table Expressions) for readability
+- Hierarchical query template supports dynamic aggregation 
 
-### Frontend Structure (`/dashboard/src/`)
+#### Frontend Structure (`/dashboard/src/`)
 
 ```
 dashboard/src/
@@ -116,6 +137,12 @@ dashboard/src/
 └── App.tsx                            # Router configuration
 ```
 
+**Design Rationale:**
+- **TanStack Table + React Query:** Best-in-class libraries for virtualization, caching, and state management
+- **URL state management:** All filters/level/aggregation stored in URL for shareable links (required for assignment submission)
+- **Single hierarchical component:** One table component handles all 4 levels with dynamic columns (DRY principle)
+- **Virtual scrolling:** Renders only ~50 visible rows instead of 52,500 (95%+ performance improvement)
+
 #### Test Structure (`/tests/`)
 
 ```
@@ -134,7 +161,8 @@ http://127.0.0.1:5172
 #### Technical Rubric Shortlinks
 
 Part 2:
-- http://127.0.0.1:5172/?level=cell&compare=none
+- Data Overview Table:
+http://127.0.0.1:5172/?level=cell&compare=none
 
 Part 3: 
 - Linear Mixed-Effects Model on Samples:
@@ -143,10 +171,14 @@ http://localhost:5172/?sample_type=PBMC&condition=melanoma&treatment=miraclib
 http://localhost:5172/?sample_type=PBMC&condition=melanoma&treatment=miraclib&level=subject
 
 Part 4:
-1. http://localhost:5178/?condition=melanoma&treatment=miraclib&sample_type=PBMC&time=0&compare=none
-2. 1. http://localhost:5178/?condition=melanoma&treatment=miraclib&sample_type=PBMC&time=0&compare=none&level=project
-   2. http://localhost:5178/?condition=melanoma&treatment=miraclib&sample_type=PBMC&time=0&level=subject
-   3. http://localhost:5178/?condition=melanoma&treatment=miraclib&sample_type=PBMC&time=0&level=subject&compare=sex
+1. Samples Filtered to Melanoma, Miraclib, PCMB, Time 0:
+http://localhost:5178/?condition=melanoma&treatment=miraclib&sample_type=PBMC&time=0&compare=none
+2. 1. Projects Filtered to Melanoma, Miraclib, PCMB, Time 0:
+   http://localhost:5178/?condition=melanoma&treatment=miraclib&sample_type=PBMC&time=0&compare=none&level=project
+   2. Subjects Filtered to Melanoma, Miraclib, PCMB, Time 0, and Compared by Responce:
+   http://localhost:5178/?condition=melanoma&treatment=miraclib&sample_type=PBMC&time=0&level=subject
+   3. Subjects Filtered to Melanoma, Miraclib, PCMB, Time 0, and Compared by Sex:
+   http://localhost:5178/?condition=melanoma&treatment=miraclib&sample_type=PBMC&time=0&level=subject&compare=sex
 
 
 ## AI Assistence Disclosure
