@@ -155,30 +155,30 @@ tests/
 
 ## Dashboard Link
 
-Dashboard is accessable at:
-http://127.0.0.1:5172
+Dashboard is accessible at:
+http://localhost:5173
 
 #### Technical Rubric Shortlinks
 
 Part 2:
 - Data Overview Table:
-http://127.0.0.1:5172/?level=cell&compare=none
+http://localhost:5173/?level=cell&compare=none
 
 Part 3: 
 - Linear Mixed-Effects Model on Samples:
-http://localhost:5172/?sample_type=PBMC&condition=melanoma&treatment=miraclib
+http://localhost:5173/?sample_type=PBMC&condition=melanoma&treatment=miraclib
 - Mann-Whitney U test on Subjects:
-http://localhost:5172/?sample_type=PBMC&condition=melanoma&treatment=miraclib&level=subject
+http://localhost:5173/?sample_type=PBMC&condition=melanoma&treatment=miraclib&level=subject
 
 Part 4:
-1. Samples Filtered to Melanoma, Miraclib, PCMB, Time 0:
-http://localhost:5178/?condition=melanoma&treatment=miraclib&sample_type=PBMC&time=0&compare=none
-2. 1. Projects Filtered to Melanoma, Miraclib, PCMB, Time 0:
-   http://localhost:5178/?condition=melanoma&treatment=miraclib&sample_type=PBMC&time=0&compare=none&level=project
-   2. Subjects Filtered to Melanoma, Miraclib, PCMB, Time 0, and Compared by Responce:
-   http://localhost:5178/?condition=melanoma&treatment=miraclib&sample_type=PBMC&time=0&level=subject
-   3. Subjects Filtered to Melanoma, Miraclib, PCMB, Time 0, and Compared by Sex:
-   http://localhost:5178/?condition=melanoma&treatment=miraclib&sample_type=PBMC&time=0&level=subject&compare=sex
+1. Samples Filtered to Melanoma, Miraclib, PBMC, Time 0:
+http://localhost:5173/?condition=melanoma&treatment=miraclib&sample_type=PBMC&time=0&compare=none
+2. Projects Filtered to Melanoma, Miraclib, PBMC, Time 0:
+http://localhost:5173/?condition=melanoma&treatment=miraclib&sample_type=PBMC&time=0&level=project
+3. Subjects Filtered to Melanoma, Miraclib, PBMC, Time 0:
+http://localhost:5173/?condition=melanoma&treatment=miraclib&sample_type=PBMC&time=0&level=subject
+4. Subjects Filtered to Melanoma, Miraclib, PBMC, Time 0, Compared by Sex:
+http://localhost:5173/?condition=melanoma&treatment=miraclib&sample_type=PBMC&time=0&level=subject&compare=sex
 
 
 ## AI Assistance Disclosure

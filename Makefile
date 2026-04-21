@@ -7,7 +7,8 @@ pipeline:
 	python load_data.py
 
 dashboard:
-	uvicorn teiko_technical.api:app --reload
+	uvicorn teiko_technical.api:app --reload & cd dashboard && npm run dev
 
 test:
-	pytest
+	pytest tests/ -v
+	cd dashboard && npm run test:run
