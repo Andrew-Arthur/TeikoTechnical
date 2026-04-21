@@ -190,7 +190,7 @@ Part 4:
 http://localhost:5173/?condition=melanoma&treatment=miraclib&sample_type=PBMC&time=0&compare=none
 2. Projects Filtered to Melanoma, Miraclib, PBMC, Time 0:
 http://localhost:5173/?condition=melanoma&treatment=miraclib&sample_type=PBMC&time=0&level=project
-3. Subjects Filtered to Melanoma, Miraclib, PBMC, Time 0:
+3. Subjects Filtered to Melanoma, Miraclib, PBMC, Time 0, Compared by Responce:
 http://localhost:5173/?condition=melanoma&treatment=miraclib&sample_type=PBMC&time=0&level=subject
 4. Subjects Filtered to Melanoma, Miraclib, PBMC, Time 0, Compared by Sex:
 http://localhost:5173/?condition=melanoma&treatment=miraclib&sample_type=PBMC&time=0&level=subject&compare=sex
