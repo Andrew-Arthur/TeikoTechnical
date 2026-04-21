@@ -18,9 +18,8 @@ The easiest way to run this project is using GitHub Codespaces:
 2. Select "Codespaces" tab
 3. Click "Create codespace on main"
 4. Wait 3-5 minutes for automatic setup (installs dependencies and loads data)
-5. Start the backend: `make dashboard`
-6. Start the frontend in new terminal: `cd dashboard && npm run dev -- --host 0.0.0.0`
-7. Click the "Ports" tab in VS Code and open port 5173 to access the dashboard
+5. Start the frontend and backend: `make dashboard`
+7. If not auto opened, click the "Ports" tab in VS Code and open port 5173 to access the dashboard
 
 The Codespace automatically installs all dependencies and loads the 10,500 sample dataset.
 
