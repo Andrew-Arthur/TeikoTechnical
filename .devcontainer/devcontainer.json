@@ -1,43 +1,37 @@
 {
-  "name": "TeikoTechnical Development",
-  "image": "mcr.microsoft.com/devcontainers/python:3.13",
+    "name": "TeikoTechnical Development",
+    "image": "mcr.microsoft.com/devcontainers/python:3.13",
 
-  "features": {
-    "ghcr.io/devcontainers/features/node:1": {
-      "version": "20"
+    "features": {
+        "ghcr.io/devcontainers/features/node:1": {
+            "version": "20"
+        },
+        "ghcr.io/devcontainers/features/git:1": {}
     },
-    "ghcr.io/devcontainers/features/git:1": {}
-  },
 
-  "customizations": {
-    "vscode": {
-      "extensions": [
-        "ms-python.python",
-        "ms-python.vscode-pylance",
-        "ms-python.black-formatter",
-        "dbaeumer.vscode-eslint",
-        "esbenp.prettier-vscode"
-      ],
-      "settings": {
-        "python.defaultInterpreterPath": "/usr/local/bin/python",
-        "editor.formatOnSave": true
-      }
-    }
-  },
-
-  "forwardPorts": [8001, 5173],
-  "portsAttributes": {
-    "8001": {
-      "label": "FastAPI Backend",
-      "onAutoForward": "notify"
+    "customizations": {
+        "vscode": {
+            "extensions": ["ms-python.python", "ms-python.vscode-pylance", "ms-python.black-formatter", "dbaeumer.vscode-eslint", "esbenp.prettier-vscode"],
+            "settings": {
+                "python.defaultInterpreterPath": "/usr/local/bin/python",
+                "editor.formatOnSave": true
+            }
+        }
     },
-    "5173": {
-      "label": "Vite Frontend",
-      "onAutoForward": "openBrowser"
-    }
-  },
 
-  "postCreateCommand": "bash .devcontainer/setup.sh",
+    "forwardPorts": [8000, 5173],
+    "portsAttributes": {
+        "8000": {
+            "label": "FastAPI Backend",
+            "onAutoForward": "notify"
+        },
+        "5173": {
+            "label": "Vite Frontend",
+            "onAutoForward": "openBrowser"
+        }
+    },
 
-  "remoteUser": "vscode"
+    "postCreateCommand": "bash .devcontainer/setup.sh",
+
+    "remoteUser": "vscode"
 }

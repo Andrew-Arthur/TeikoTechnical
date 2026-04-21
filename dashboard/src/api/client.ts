@@ -7,7 +7,7 @@ import type {
     StatisticalAnalysisResult
 } from "../types/api"
 
-const FAST_API = "http://127.0.0.1:8001"
+const FAST_API = "http://127.0.0.1:8000"
 
 export async function fetchHierarchicalTableData(
     level: HierarchyLevel,
